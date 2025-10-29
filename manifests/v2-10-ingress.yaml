@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-v2
+  namespace: canary-demo
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"        # ✅ Canary 모드 활성화
+    nginx.ingress.kubernetes.io/canary-weight: "10"   # 전체 트래픽 중 10%를 v2로
+spec:
+  ingressClassName: nginx                             # ✅ 최신 문법
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: app-v2                      # canary 서비스로 라우팅
+                port:
+                  number: 80

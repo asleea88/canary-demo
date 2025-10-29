@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-v2                       ## Deployment 이름 (v2 버전용)
+  namespace: canary-demo
+spec:
+  replicas: 2                        ## Pod 2개 실행 (테스트 중이므로 소량)
+  selector:
+    matchLabels:
+      app: demo
+      version: v2                    ## version=v2 라벨을 가진 Pod 관리
+  template:
+    metadata:
+      labels:
+        app: demo
+        version: v2                  ## Pod 라벨
+    spec:
+      containers:
+        - name: server
+          image: hashicorp/http-echo
+          args:
+            - "-text=Hello from v2 (canary)" ## "Hello from v2 (canary)" 응답
+          ports:
+            - containerPort: 5678

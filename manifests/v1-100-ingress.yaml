@@ -1,0 +1,17 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: demo-v1
+  namespace: canary-demo
+spec:
+  ingressClassName: nginx                     # ✅ 최신 문법: Ingress 클래스 지정
+  rules:
+    - http:
+        paths:
+          - path: /                           # 모든 경로 처리
+            pathType: Prefix
+            backend:
+              service:
+                name: app-v1              # v1 서비스로 라우팅
+                port:
+                  number: 80

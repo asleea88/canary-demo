@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-v1                       ## Deployment 이름 (v1 버전용)
+  namespace: canary-demo             ## canary-demo 네임스페이스에 생성
+spec:
+  replicas: 2                        ## Pod을 2개 실행 (가용성 확보)
+  selector:
+    matchLabels:
+      app: demo
+      version: v1                    ## 이 라벨을 가진 Pod을 관리
+  template:
+    metadata:
+      labels:
+        app: demo
+        version: v1                  ## Pod에 부여될 라벨
+    spec:
+      containers:
+        - name: server               ## 컨테이너 이름
+          image: hashicorp/http-echo ## 간단히 문자열을 반환하는 테스트용 이미지
+          args:
+            - "-text=Hello from v1"  ## 요청이 들어오면 "Hello from v1"을 출력
+          ports:
+            - containerPort: 5678    ## 컨테이너가 리스닝하는 포트
