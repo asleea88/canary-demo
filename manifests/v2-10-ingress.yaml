@@ -5,7 +5,7 @@ metadata:
   namespace: canary-demo
   annotations:
     nginx.ingress.kubernetes.io/canary: "true"        # ✅ Canary 모드 활성화
-    nginx.ingress.kubernetes.io/canary-weight: "10"   # 전체 트래픽 중 10%를 v2로
+    nginx.ingress.kubernetes.io/canary-weight: "50"   # 전체 트래픽 중 10%를 v2로
 spec:
   ingressClassName: nginx                             # ✅ 최신 문법
   rules:
